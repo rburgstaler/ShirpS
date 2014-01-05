@@ -4,17 +4,69 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Collections;
+using System.Diagnostics;
 
 namespace ShirpS
 {
     class Program
     {
+        
+
+        static private String ExecCmd(String cmd)
+        {
+            String retStr = "";
+            String fileName = Guid.NewGuid().ToString();
+            StringBuilder sB = new StringBuilder();
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            try
+            {
+                //Git might not be found in the paths desired... we may need to find it
+                //String svnPath = @"C:\Program Files\SlikSvn\bin\svn.exe";
+                //if (!File.Exists(svnPath)) svnPath = @"C:\Program Files (x86)\SlikSvn\bin\svn.exe";
+                //if (!File.Exists(svnPath)) throw new Exception("Cannot find SlickSvn... is it installed?");
+                String[] cmdParams=CommandLineParser.GetArguments(cmd);
+                if (cmdParams.Length < 1) throw new Exception("No command given");
+
+                p.StartInfo.FileName = cmdParams[0];
+                p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+                p.StartInfo.Arguments = "";
+                String fullFileName = Path.Combine(@"D:\Debug\", fileName);
+
+
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                p.Start();
+                try
+                {
+                    p.WaitForExit();
+                    retStr = p.StandardOutput.ReadToEnd();
+                }
+                catch (Exception e)
+                {
+                    retStr = e.Message + " -- " + ((p.StandardOutput == null) ? "" : p.StandardOutput.ReadToEnd()) + " -- " + ((p.StandardError == null) ? "" : p.StandardError.ReadToEnd());
+                }
+            }
+            catch (Exception e)
+            {
+                retStr = e.Message;
+            }
+            //Remove the file when done...
+            return retStr;
+        }
+
         static void Main(string[] args)
         {
             //Console.OutputEncoding = Encoding.ASCII;
             
             Console.Write("*****************************************\n");
             Console.Write("*****************************************\n");
+
+            String res = ExecCmd("git add --help");
+            Console.Write(res.Replace("\r\n", "\n"));
+
             Console.Write(Environment.CurrentDirectory + "\n");
             Console.Write(String.Join("\n", args));
 
@@ -47,5 +99,4 @@ namespace ShirpS
             Environment.Exit(5);
         }
     }
-    ///D/Dev/ExperimentationCSharp/BashInterperter/BashInterpreter/bin/Debug/sample.sh
 }
