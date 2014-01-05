@@ -26,12 +26,12 @@ namespace ShirpS
 
                 //Get the arguments from the remaining members of the array
                 String args = "";
-                if (cmdParams.Length > 1) args = String.Format("\"{0}\"", String.Join("\" \"", cmdParams));
+                if (cmdParams.Length > 1) args = String.Format("\"{0}\"", String.Join("\" \"", cmdParams.ToList().GetRange(1, cmdParams.Length-1)));
 
                 p.StartInfo.FileName = cmdParams[0];
                 p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-                p.StartInfo.Arguments = args;
 
+                p.StartInfo.Arguments = args;
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
@@ -63,8 +63,26 @@ namespace ShirpS
             Console.Write("*****************************************\n");
             Console.Write("*****************************************\n");
 
-            String res = ExecCmd("git add --help");
+
+            String refname = args[1];
+            String oldrev  = args[2];
+            String newrev  = args[3];
+            //String user    = ENV['USER'];
+
+            String res = ExecCmd(String.Format("git rev-list {0}..{1}", oldrev, newrev));
+            Console.Write(String.Format("Contains carriage return {0} \n", (res.IndexOf("\r\n")>-1).ToString()  ));
+
             Console.Write(res.Replace("\r\n", "\n"));
+
+
+            
+            res = ExecCmd(String.Format("git cat-file commit {0}", newrev));
+            Console.Write(String.Format("Contains carriage return {0} \n", (res.IndexOf("\r\n") > -1).ToString()));
+
+            Console.Write(res.Replace("\r\n", "\n"));
+
+
+
 
             Console.Write(Environment.CurrentDirectory + "\n");
             Console.Write(String.Join("\n", args));
