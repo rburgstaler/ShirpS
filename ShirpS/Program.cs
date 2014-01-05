@@ -46,45 +46,32 @@ namespace ShirpS
 
             ListLookup lookup = new ListLookup();
             lookup.LoadFromFile("ValidUsers.txt");
+
+            List<String> errors = new List<String>();
             
             Console.Write("*****************************************\n");
             Console.Write("*****************************************\n");
-            Console.Write("Validating your permissions\n");
-
-            //String user    = ENV['USER'];
+            Console.Write("Validating your Committers and Authors\n");
 
             String[] res = Command.Execute(String.Format("git rev-list {0}..{1}", oldrev, newrev));
-
-            Console.Write(String.Join("\n", res)+"\n");
-
-
 
             for (int x = res.Length-1; x >= 0; x--)
             {
                 String[] newres = Command.Execute(String.Format("git cat-file commit {0}", res[x]));
+                GitCommitInfo gi = GitCommitInfo.Parse(newres);
 
-                Console.Write(String.Join("\n", newres)+"\n");
-                Console.Write(GitCommitInfo.Parse(newres).author.date.ToString() + "\n");
-                Console.Write(GitCommitInfo.Parse(newres).committer.date.ToString() + "\n");
-                Console.Write(GitCommitInfo.Parse(newres).message + "\n");
+                if (lookup.FindNameIndex(gi.author.name) < 0) errors.Add(String.Format("Invalid author name: {0}", gi.author.name));
+                if (lookup.FindEmailIndex(gi.author.email) < 0) errors.Add(String.Format("Invalid author email: {0}", gi.author.email));
+                if (lookup.FindNameIndex(gi.committer.name) < 0) errors.Add(String.Format("Invalid committer name: {0}", gi.committer.name));
+                if (lookup.FindEmailIndex(gi.committer.email) < 0) errors.Add(String.Format("Invalid committer email: {0}", gi.committer.email));
             }
 
-
-            Console.Write(Environment.CurrentDirectory + "\n");
-
-            Console.Write("\n****\n");
-
-            EnvInfo.OutputArguments();
-
-
-
-            EnvInfo.OutputEnvironmentalVariables();
-            
-
+            if (errors.Count > 0) Console.Write(String.Join("\n", errors) + "\n");
+            else Console.Write("Committers and Authors are OK!\n");
 
             Console.Write("*****************************************\n");
             Console.Write("*****************************************\n");
-            Environment.Exit(0);
+            Environment.Exit(errors.Count);
         }
     }
 }
