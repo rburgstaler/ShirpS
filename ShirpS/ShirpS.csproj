@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="CommandLineParser.cs" />
+    <Compile Include="EnvInfo.cs" />
     <Compile Include="Git.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
