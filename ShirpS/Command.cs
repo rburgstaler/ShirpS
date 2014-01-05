@@ -37,9 +37,12 @@ namespace ShirpS
             p.WaitForExit();
             retStr = p.StandardOutput.ReadToEnd();
 
-
-            //Remove the file when done...
-            return retStr.Split(new String[] { "\r\n", "\n" }, StringSplitOptions.None);
+            //The command line execuation will include a trailing carriage return / line feed / or combination
+            //to signify the end.  We do not want the non-line after to show up as an empty member of the array.
+            //We only want the last one replaced though
+            if (retStr.EndsWith("\r\n")) retStr = retStr.Remove(retStr.Length-2);
+            else if (retStr.EndsWith("\n")) retStr = retStr.Remove(retStr.Length-1);
+            return retStr.TrimEnd().Split(new String[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
     }
 }
