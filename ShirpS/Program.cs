@@ -20,18 +20,17 @@ namespace ShirpS
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             try
             {
-                //Git might not be found in the paths desired... we may need to find it
-                //String svnPath = @"C:\Program Files\SlikSvn\bin\svn.exe";
-                //if (!File.Exists(svnPath)) svnPath = @"C:\Program Files (x86)\SlikSvn\bin\svn.exe";
-                //if (!File.Exists(svnPath)) throw new Exception("Cannot find SlickSvn... is it installed?");
+                //Get the exe name to execute
                 String[] cmdParams=CommandLineParser.GetArguments(cmd);
                 if (cmdParams.Length < 1) throw new Exception("No command given");
 
+                //Get the arguments from the remaining members of the array
+                String args = "";
+                if (cmdParams.Length > 1) args = String.Format("\"{0}\"", String.Join("\" \"", cmdParams));
+
                 p.StartInfo.FileName = cmdParams[0];
                 p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-                p.StartInfo.Arguments = "";
-                String fullFileName = Path.Combine(@"D:\Debug\", fileName);
-
+                p.StartInfo.Arguments = args;
 
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
