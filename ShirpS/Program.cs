@@ -56,6 +56,9 @@ namespace ShirpS
             return retStr;
         }
 
+
+        
+
         static void Main(string[] args)
         {
             //Console.OutputEncoding = Encoding.ASCII;
@@ -75,13 +78,16 @@ namespace ShirpS
             Console.Write(res.Replace("\r\n", "\n"));
 
 
-            
-            res = ExecCmd(String.Format("git cat-file commit {0}", newrev));
-            Console.Write(String.Format("Contains carriage return {0} \n", (res.IndexOf("\r\n") > -1).ToString()));
 
-            Console.Write(res.Replace("\r\n", "\n"));
+            String[] lines = res.Split(new String[] {"\r\n", "\n"}, StringSplitOptions.None);
 
 
+            for (int x = lines.Length-1; x >= 0; x--)
+            {
+                res = ExecCmd(String.Format("git cat-file commit {0}", lines[x]));
+
+                Console.Write(res.Replace("\r\n", "\n"));
+            }
 
 
             Console.Write(Environment.CurrentDirectory + "\n");
@@ -95,24 +101,6 @@ namespace ShirpS
             Console.Write("Validating your permissions\n");
             Console.Write("*****************************************\n");
             Console.Write("*****************************************\n");
-            //Console.WriteLine("file ASCII");
-
-            //Console.OutputEncoding = Encoding.Unicode;
-            //Console.WriteLine("file Unicode");
-            //Console.OutputEncoding = Encoding.UTF32;
-            //Console.WriteLine("file UTF32");
-            //Console.OutputEncoding = Encoding.UTF7;
-            //Console.WriteLine("file UTF7");
-            //Console.OutputEncoding = Encoding.BigEndianUnicode;
-            //Console.WriteLine("file BigEndianUnicode");
-            //Console.OutputEncoding = Encoding.UTF8;
-            //Console.WriteLine("file UTF8");
-
-
-           // File.AppendAllText(@"D:\debug\bashdebug.txt", "I'm coming");
-           // File.AppendAllLines(@"D:\debug\bashdebug.txt", args);
-           // Console.Write("got here");
-            //Console.Error.Write("Standard error");
             Environment.Exit(5);
         }
     }
