@@ -45,7 +45,7 @@ namespace ShirpS
             String newrev = args[3];
 
             ListLookup lookup = new ListLookup();
-            lookup.LoadFromFile("ValidUsers.txt");
+            lookup.LoadFromFile(@"..\ValidUsers.txt");
 
             List<String> errors = new List<String>();
             
