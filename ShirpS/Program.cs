@@ -36,8 +36,19 @@ namespace ShirpS
         }
     }
 
+
     class Program
     {
+        //Sample chunk of code for checking for std in
+        public static String TryReadStdIn()
+        {
+            if (Console.In.Peek() >= 0)
+            {
+                return Console.In.ReadToEnd();
+            }
+            return null;
+        }
+
         static void Main(string[] args)
         {
             String refname = args[1];
