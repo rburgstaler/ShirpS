@@ -64,7 +64,12 @@ namespace ShirpS
             Console.Write("*****************************************\n");
             Console.Write("Validating your Committers and Authors\n");
 
-            String[] res = Command.Execute(String.Format("git rev-list {0}..{1}", oldrev, newrev));
+            String[] res;
+            //When pushing a new branch, oldrev will be 0000000000000000000000000000000000000000.  When this
+            //occurs we want to find the first revision that is not on any other branches.
+            if (oldrev == "0000000000000000000000000000000000000000") res = Command.Execute(String.Format("git rev-list {0} --not --branches", newrev));
+            else res = Command.Execute(String.Format("git rev-list {0}..{1}", oldrev, newrev));
+            Console.Write(String.Format("{0} commits found\n", res.Length));
 
             for (int x = res.Length-1; x >= 0; x--)
             {
