@@ -15,7 +15,7 @@ echo "#!/bin/Shirps" >> update
 cd ../..
 
 #Create the valid users files
-echo "John Doe <jdoe@myemail.com>" >> ValidUsers.txt
+echo "John Doe <jdoe@myemail.com>" > ValidUsers.txt
 
 #Create the client "working" repositories that is a clone of the server repo
 git clone ./RepoA.git RepoA 
