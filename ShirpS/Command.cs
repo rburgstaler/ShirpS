@@ -37,6 +37,9 @@ namespace ShirpS
             p.WaitForExit();
             retStr = p.StandardOutput.ReadToEnd();
 
+            //if there were no results returned... then just return an empty array
+            if (retStr.Length == 0) return new String[0];
+
             //The command line execuation will include a trailing carriage return / line feed / or combination
             //to signify the end.  We do not want the non-line after to show up as an empty member of the array.
             //We only want the last one replaced though
