@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShirpS
 {
@@ -36,6 +37,13 @@ namespace ShirpS
         }
     }
 
+    public class ShContext
+    {
+        public String ScriptFile { get; set; }
+        public List<String> Args { get; set; }
+
+    }
+
 
     class Program
     {
@@ -49,8 +57,14 @@ namespace ShirpS
             return null;
         }
 
+
         static void Main(string[] args)
         {
+            ShContext ctx = new ShContext();
+
+            //First parameter is the path the the bash
+            ctx.ScriptFile = Path.Combine(Environment.CurrentDirectory, args[0].Replace('/', '\\'));
+            ctx.Args = args.ToList();
             String refname = args[1];
             String oldrev = args[2];
             String newrev = args[3];
