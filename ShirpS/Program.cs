@@ -74,16 +74,16 @@ namespace ShirpS
 
 
 
-            /*
+
             ScriptRunner sr = new ScriptRunner();
             sr.AddReferencedAssembly(typeof(String).GetType());
             //sr.AddReferencedAssembly(typeof(Console).GetType());
-            sr.Compile(File.ReadAllText(@"D:\Dev\Shirps\SampleScripts\Sample.cs"));
+            sr.Compile(File.ReadAllText(@"..\Sample.cs"));
 
             Console.Write("++++++++++Errors+++++++++++\n");
 
 
-            String[] errs = sr.Errors().Split(new String[1] { Environment.NewLine }, StringSplitOptions.None);
+            String[] errs = sr.Errors().Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
             foreach (String er in errs)
             {
                 Console.Write(er+"\n");
@@ -96,7 +96,7 @@ namespace ShirpS
 
             Console.Write("++++++++++Test+++++++++++\n");
             Console.Write(retVal.ToString()+"\n");
-            */
+
 
 
 
