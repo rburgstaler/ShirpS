@@ -8,6 +8,8 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Text;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace ShirpS
 {
@@ -61,9 +63,20 @@ namespace ShirpS
             return null;
         }
 
+        static void OutputLines(String str)
+        {
+            String[] s = str.Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
+            foreach (String sl in s)
+            {
+                Console.Write(sl + "\n");
+
+            } 
+        }
+
 
         static void Main(string[] args)
         {
+
             ShContext ctx = new ShContext();
 
             //First parameter is the path the the bash
@@ -71,9 +84,10 @@ namespace ShirpS
             ctx.Args = args.ToList();
 
 
+            JObject o = JObject.Parse("{ \"a\": \"b\", \"ff\": { \"a\": \"2\" } }");
+            Console.Write(o["a"].ToString() + "\n");
 
-
-
+            OutputLines(o.ToString(Formatting.Indented));
 
             ScriptRunner sr = new ScriptRunner();
             sr.AddReferencedAssembly(typeof(String).GetType());
@@ -83,14 +97,7 @@ namespace ShirpS
             Console.Write("++++++++++Errors+++++++++++\n");
 
 
-            String[] errs = sr.Errors().Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
-            foreach (String er in errs)
-            {
-                Console.Write(er+"\n");
-
-            }
-
-            
+            OutputLines(sr.Errors());
 
             Object retVal = sr.Execute("SSRScript.SSR.Exec", null, null);
 
