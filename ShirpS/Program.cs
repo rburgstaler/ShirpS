@@ -63,14 +63,18 @@ namespace ShirpS
             return null;
         }
 
-        static void OutputLines(String str)
+        static void OuputLines(IEnumerable s)
         {
-            String[] s = str.Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
             foreach (String sl in s)
             {
                 Console.Write(sl + "\n");
-
             } 
+        }
+
+        static void OutputLines(String str)
+        {
+            String[] s = str.Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
+            OuputLines(s);
         }
 
 
@@ -83,7 +87,18 @@ namespace ShirpS
             ctx.ScriptFile = Path.Combine(Environment.CurrentDirectory, args[0].Replace('/', '\\'));
             ctx.Args = args.ToList();
 
+            OutputLines("ScriptFile: " + ctx.ScriptFile);
 
+
+            String[] cnf = File.ReadAllLines(ctx.ScriptFile);
+            OutputLines("*******begin script*******");
+            OuputLines(cnf);
+            OutputLines("*******end script*******");
+
+
+            OutputLines("*******begin arguments*******");
+            OuputLines(args);
+            OutputLines("*******end arguments*******");
             JObject o = JObject.Parse("{ \"a\": \"b\", \"ff\": { \"a\": \"2\" } }");
             Console.Write(o["a"].ToString() + "\n");
 

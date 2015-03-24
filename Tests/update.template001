@@ -1,0 +1,8 @@
+#!/bin/Shirps
+#Script configuration will go in this file in the form of JSON
+#
+{
+  "Scripts": {
+    FileName: "..\..\Tests\Sample.cs"
+  }
+}

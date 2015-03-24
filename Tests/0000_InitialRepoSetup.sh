@@ -10,9 +10,9 @@ rm -rf Validusers.txt
 mkdir RepoA.git
 cd ./RepoA.git
 git init --bare
-cd hooks
-echo "#!/bin/Shirps" >> update
-cd ../..
+#Copy the template hook file in
+cp ../update.template001 hooks/update
+cd ..
 
 #Create the valid users files
 echo "John Doe <jdoe@myemail.com>" > ValidUsers.txt
