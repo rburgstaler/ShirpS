@@ -63,18 +63,18 @@ namespace ShirpS
             return null;
         }
 
-        static void OuputLines(IEnumerable s)
+        static void OutputLines(IEnumerable<String> s)
         {
-            foreach (String sl in s)
+            foreach (Object sl in s)
             {
-                Console.Write(sl + "\n");
+                Console.Write(sl.ToString() + "\n");
             } 
         }
 
         static void OutputLines(String str)
         {
             String[] s = str.Split(new String[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
-            OuputLines(s);
+            OutputLines(s);
         }
 
 
@@ -90,14 +90,20 @@ namespace ShirpS
             OutputLines("ScriptFile: " + ctx.ScriptFile);
 
 
-            String[] cnf = File.ReadAllLines(ctx.ScriptFile);
+            List<String> cnf = File.ReadAllLines(ctx.ScriptFile).ToList();
+            //Strip out #Comments
+            for (int idx = cnf.Count - 1; idx >= 0; idx-- )
+            {
+                if (cnf[idx].Trim().StartsWith("#")) cnf.RemoveAt(idx);
+            }
+            JObject cnfObj = JObject.Parse(String.Join(Environment.NewLine, cnf.ToArray()));
             OutputLines("*******begin script*******");
-            OuputLines(cnf);
+            OutputLines(cnfObj.ToString(Formatting.Indented));
             OutputLines("*******end script*******");
 
 
             OutputLines("*******begin arguments*******");
-            OuputLines(args);
+            OutputLines(args);
             OutputLines("*******end arguments*******");
             JObject o = JObject.Parse("{ \"a\": \"b\", \"ff\": { \"a\": \"2\" } }");
             Console.Write(o["a"].ToString() + "\n");

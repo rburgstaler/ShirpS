@@ -3,6 +3,11 @@
 #
 {
   "Scripts": {
-    FileName: "..\..\Tests\Sample.cs"
+    "FileNames": [
+      "..\\..\\Tests\\Sample.cs"
+    ],
+    "References": [
+      "System.dll"
+    ]
   }
 }
