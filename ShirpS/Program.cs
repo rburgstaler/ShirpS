@@ -89,6 +89,8 @@ namespace ShirpS
 
             OutputLines("ScriptFile: " + ctx.ScriptFile);
 
+            ShProj proj = new ShProj();
+            AssemLoader.LoadFromFile(ctx.ScriptFile, proj);
 
             List<String> cnf = File.ReadAllLines(ctx.ScriptFile).ToList();
             //Strip out #Comments

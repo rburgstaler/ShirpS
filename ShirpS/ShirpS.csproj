@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assem.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandLineParser.cs" />
     <Compile Include="EnvInfo.cs" />
