@@ -2,12 +2,14 @@
 #Script configuration will go in this file in the form of JSON
 #
 {
-  "Scripts": {
-    "FileNames": [
-      "..\\..\\Tests\\Sample.cs"
-    ],
-    "References": [
-      "System.dll"
-    ]
-  }
+  "Scripts": [
+  	{
+      "FileNames": [
+        "..\\..\\Tests\\Sample.cs"
+      ],
+      "References": [
+        "System.dll"
+      ]
+    }
+  ]
 }

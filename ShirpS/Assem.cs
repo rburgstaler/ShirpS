@@ -16,8 +16,18 @@ namespace ShirpS
             for (int idx = cnf.Count - 1; idx >= 0; idx--) if (cnf[idx].Trim().StartsWith("#")) cnf.RemoveAt(idx);
             JObject cnfObj = JObject.Parse(String.Join(Environment.NewLine, cnf.ToArray()));
 
+            JArray scr = cnfObj.GetValue("Scripts", StringComparison.CurrentCultureIgnoreCase) as JArray;
+            if (scr != null)
+            {
+                foreach (JToken jt in scr)
+                {
+                    JObject scriptObj = jt as JObject;
+                    if (scriptObj == null) continue;
 
-
+                    Assem asm = scriptObj.ToObject<Assem>();
+                    prj.Add(asm);
+                }
+            }
         }
     }
 
