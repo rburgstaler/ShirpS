@@ -4,12 +4,17 @@
 {
   "Scripts": [
   	{
+  	  "Type": "Assem",
       "FileNames": [
         "..\\..\\Tests\\Sample.cs"
       ],
       "References": [
         "System.dll"
       ]
+    },
+    {
+  	  "Type": "AssemLink",
+      "FileName": "..\\..\\Test.prj"
     }
   ]
 }

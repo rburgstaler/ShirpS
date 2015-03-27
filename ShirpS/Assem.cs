@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 
 namespace ShirpS
 {
+
     public class AssemLoader
     {
         public static void LoadFromFile(String fileName, ShProj prj)
@@ -24,7 +26,10 @@ namespace ShirpS
                     JObject scriptObj = jt as JObject;
                     if (scriptObj == null) continue;
 
-                    Assem asm = scriptObj.ToObject<Assem>();
+                    AssemBase asm = null;
+                    if (scriptObj.GetValue("Type", StringComparison.CurrentCultureIgnoreCase).Value<String>() == "AssemLink") asm = scriptObj.ToObject<AssemLink>();
+                    else asm = scriptObj.ToObject<Assem>();
+
                     prj.Add(asm);
                 }
             }
