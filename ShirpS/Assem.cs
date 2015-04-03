@@ -27,7 +27,9 @@ namespace ShirpS
                     if (scriptObj == null) continue;
 
                     AssemBase asm = null;
-                    if (scriptObj.GetValue("Type", StringComparison.CurrentCultureIgnoreCase).Value<String>() == "AssemLink") asm = scriptObj.ToObject<AssemLink>();
+
+                    JToken j;
+                    if (scriptObj.TryGetValue("Type", out j) && (j.Value<String>() == "AssemLink")) asm = scriptObj.ToObject<AssemLink>();
                     else asm = scriptObj.ToObject<Assem>();
 
                     prj.Add(asm);
